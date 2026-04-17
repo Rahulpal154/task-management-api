@@ -92,6 +92,22 @@ PATCH /tasks/:id/assign
 
 ---
 
+## 📸 Postman API Screenshots
+
+### 🔹 Create Task (POST)
+![POST](./screenshots/task-api-post-req.png)
+
+### 🔹 Get All Tasks (GET)
+![GET](./screenshots/task-api-get-req.png)
+
+### 🔹 Update Task (PATCH)
+![PATCH](./screenshots/task-api-patch-req.png)
+
+### 🔹 Delete Task (DELETE)
+![DELETE](./screenshots/task-api-delete-req.png)
+
+--
+
 ## 📈 Notes
 
 This project focuses on improving an existing system by identifying issues, enhancing robustness, and ensuring reliability through testing.
