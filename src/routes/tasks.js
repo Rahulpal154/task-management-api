@@ -69,4 +69,35 @@ router.patch('/:id/complete', (req, res) => {
   res.json(task);
 });
 
+// NEW FEATURE: assign a task to a user
+// Design decisions:
+//   - assignee must be a non-empty, non-whitespace string. A name like "123"
+//     is accepted — we don't restrict to alphabetic characters, keeping it flexible.
+//   - Re-assigning is allowed. The assignment brief does not say to reject it,
+//     and blocking re-assignment would complicate workflows (e.g. rotation of owners).
+//     If the business later requires "first-assign-only" semantics, one extra check
+//     covers it: if (task.assignee) return res.status(409).json({ error: '...' });
+//   - We do NOT change the task status on assignment; that is a separate concern.
+router.patch('/:id/assign', (req, res) => {
+  const { assignee } = req.body;
+
+  if (
+    assignee === undefined ||
+    assignee === null ||
+    typeof assignee !== 'string' ||
+    assignee.trim() === ''
+  ) {
+    return res
+      .status(400)
+      .json({ error: 'assignee is required and must be a non-empty string' });
+  }
+
+  const task = taskService.assignTask(req.params.id, assignee.trim());
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' });
+  }
+
+  res.json(task);
+});
+
 module.exports = router;
